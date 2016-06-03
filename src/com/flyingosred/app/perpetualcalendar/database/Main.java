@@ -22,7 +22,7 @@ public class Main {
         Calendar calendar = Calendar.getInstance();
         calendar.set(1901, 1, 19);
         Calendar maxDate = Calendar.getInstance();
-        maxDate.set(2100, 1, 1);
+        maxDate.set(2100, 0, 1);
 
         while (!Utils.isSameDay(calendar, maxDate)) {
             Lunar lunar = lunarProvider.get(calendar);

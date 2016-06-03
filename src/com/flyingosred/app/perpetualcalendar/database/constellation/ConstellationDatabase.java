@@ -9,7 +9,7 @@ public class ConstellationDatabase {
             { 10, 23, 11, 21 }, { 11, 22, 12, 21 }, { 12, 22, 1, 19 } };
 
     public static int get(Calendar calendar) {
-        int month = calendar.get(Calendar.MONTH);
+        int month = calendar.get(Calendar.MONTH) + 1;
         int day = calendar.get(Calendar.DATE);
         for (int i = 0; i < CONSTELLATION_DATE.length; i++) {
             int[] date = CONSTELLATION_DATE[i];

@@ -42,12 +42,12 @@ public final class ExcelHelper {
         return sheet;
     }
 
-    public List<XSSFSheet> getSheetsWithPrefix(String prefix) {
+    public List<XSSFSheet> getSheetsWithSuffix(String suffix) {
         List<XSSFSheet> list = new ArrayList<>();
         Iterator<Sheet> iterator = mWorkbook.sheetIterator();
         while (iterator.hasNext()) {
             Sheet sheet = iterator.next();
-            if (sheet.getSheetName().startsWith(prefix)) {
+            if (sheet.getSheetName().endsWith(suffix)) {
                 list.add((XSSFSheet) sheet);
             }
         }
@@ -66,6 +66,14 @@ public final class ExcelHelper {
         XSSFCell cell = row.getCell(cellNumber);
         if (cell != null && cell.getCellType() == XSSFCell.CELL_TYPE_STRING) {
             return cell.getStringCellValue();
+        }
+        return null;
+    }
+    
+    public static String getCellFormula(XSSFRow row, int cellNumber) {
+        XSSFCell cell = row.getCell(cellNumber);
+        if (cell != null && cell.getCellType() == XSSFCell.CELL_TYPE_FORMULA) {
+            return cell.getCellFormula();
         }
         return null;
     }
