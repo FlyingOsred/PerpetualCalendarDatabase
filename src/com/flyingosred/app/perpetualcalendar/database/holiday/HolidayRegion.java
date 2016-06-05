@@ -22,4 +22,16 @@ public class HolidayRegion {
     public String toString() {
         return "HolidayRegion [mId=" + mId + ", mName=" + mName + ", mLocaleList=" + mLocaleList + "]";
     }
+
+    public int getId() {
+        return mId;
+    }
+
+    public String getName() {
+        return mName;
+    }
+
+    public List<LocaleName> getLocaleList() {
+        return mLocaleList;
+    }
 }

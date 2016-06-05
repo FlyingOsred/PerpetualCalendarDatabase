@@ -1,5 +1,7 @@
 package com.flyingosred.app.perpetualcalendar.database.holiday;
 
+import java.util.Calendar;
+
 import com.flyingosred.app.perpetualcalendar.database.excel.ExcelHelper;
 
 public class HolidayProvider {
@@ -8,6 +10,10 @@ public class HolidayProvider {
 
     public HolidayProvider() {
         init();
+    }
+    
+    public void get(Calendar calendar) {
+        
     }
 
     private void init() {

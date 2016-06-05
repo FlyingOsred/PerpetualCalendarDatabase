@@ -1,13 +1,19 @@
 package com.flyingosred.app.perpetualcalendar.database.holiday;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 import com.flyingosred.app.perpetualcalendar.database.LocaleName;
 import com.flyingosred.app.perpetualcalendar.database.excel.ExcelHelper;
+
+import sun.util.resources.cldr.en.TimeZoneNames_en;
 
 public class HolidayDatabase {
 
@@ -40,6 +46,8 @@ public class HolidayDatabase {
 
     private List<Festival> mFestivalList = new ArrayList<>();
 
+    private List<Holiday> mHolidayList = new ArrayList<>();
+
     public HolidayDatabase() {
 
     }
@@ -48,7 +56,23 @@ public class HolidayDatabase {
         parseRegion(excelHelper);
         parseFestival(excelHelper);
         parseHoliday(excelHelper);
+    }
 
+    public List<Integer> get(Calendar calendar) {
+        List<Integer> holidayValueList = new ArrayList<>();
+        for (Holiday holiday : mHolidayList) {
+            Date date = holiday.getDate();
+            Calendar tempCalendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"), Locale.ENGLISH);
+            tempCalendar.setTime(date);
+            if (isSameDay(calendar, tempCalendar)) {
+                int regionId = holiday.getRegion().getId();
+                int festivalId = holiday.getFestival().getId();
+                int offWork = holiday.getOffWork();
+                int value = 
+                if (holiday.get
+            }
+        }
+        return holidayValueList;
     }
 
     private void parseHoliday(ExcelHelper excelHelper) {
@@ -56,12 +80,34 @@ public class HolidayDatabase {
         for (XSSFSheet sheet : sheets) {
             int rows = sheet.getPhysicalNumberOfRows();
             String sheetName = sheet.getSheetName();
-            System.out.println("Parsing holiday sheet " + sheetName);
+            String regionName = sheetName.replace(EXCEL_SHEET_HOLIDAY_SUFFIX, "").toLowerCase();
+            HolidayRegion region = findRegion(regionName);
+            System.out.println("Parsing holiday sheet " + sheetName + " region " + region);
             int i;
+            int j;
             for (i = EXCEL_ROW_HOLIDAY_DATA_START; i < rows; i++) {
                 XSSFRow row = sheet.getRow(i);
                 String nameFormula = ExcelHelper.getCellFormula(row, EXCEL_COL_HOLIDAY_NAME);
-                System.out.println("nameFormula is " + nameFormula);
+                Festival festival = null;
+                if (nameFormula != null) {
+                    String[] nameFormulaParts = nameFormula.split("!");
+                    String type = nameFormulaParts[0];
+                    String refCellName = nameFormulaParts[1];
+                    refCellName = refCellName.replaceAll("[^\\d.]", "");
+                    int index = Integer.parseInt(refCellName);
+                    festival = findFestival(type, index);
+                }
+                int cols = row.getPhysicalNumberOfCells();
+                j = EXCEL_COL_HOLIDAY_YEAR_START;
+                while (j < cols) {
+                    Date date = ExcelHelper.getDateCellValue(row, j);
+                    j++;
+                    int offWork = ExcelHelper.getIntCellValue(row, j);
+                    j++;
+                    Holiday holiday = new Holiday(region, festival, date, offWork);
+                    mHolidayList.add(holiday);
+                }
+
             }
         }
     }
@@ -92,10 +138,10 @@ public class HolidayDatabase {
                     localeList.add(locale);
                 }
                 Festival festival = new Festival(id, sheetName, localeList);
-                System.out.println("Found festival " + festival.toString());
                 mFestivalList.add(festival);
             }
         }
+        System.out.println("Totally " + mFestivalList.size() + " festival.");
     }
 
     private void parseRegion(ExcelHelper excelHelper) {
@@ -125,6 +171,30 @@ public class HolidayDatabase {
             System.out.println("Found holiday region " + region.toString());
             mHolidayRegionList.add(region);
         }
+    }
+
+    private Festival findFestival(String type, int index) {
+        for (Festival festival : mFestivalList) {
+            if (festival.getId() == index - Festival.INDEX_ID_OFFSET && type.equals(festival.getType())) {
+                return festival;
+            }
+        }
+        return null;
+    }
+
+    private HolidayRegion findRegion(String regionName) {
+        for (HolidayRegion region : mHolidayRegionList) {
+            if (region.getName().equals(regionName)) {
+                return region;
+            }
+        }
+        return null;
+    }
+
+    private boolean isSameDay(Calendar day1, Calendar day2) {
+        return day1.get(Calendar.YEAR) == day2.get(Calendar.YEAR)
+                && day1.get(Calendar.MONTH) == day2.get(Calendar.MONTH)
+                && day1.get(Calendar.DATE) == day2.get(Calendar.DATE);
     }
 
 }
