@@ -1,4 +1,4 @@
-package com.flyingosred.app.perpetualcalendar.database;
+package com.flyingosred.app.perpetualcalendar.database.locale;
 
 public final class LocaleName {
 

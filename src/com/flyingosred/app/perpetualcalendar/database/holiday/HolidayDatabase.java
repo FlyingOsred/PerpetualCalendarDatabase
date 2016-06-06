@@ -10,8 +10,8 @@ import java.util.TimeZone;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 
-import com.flyingosred.app.perpetualcalendar.database.LocaleName;
 import com.flyingosred.app.perpetualcalendar.database.excel.ExcelHelper;
+import com.flyingosred.app.perpetualcalendar.database.locale.LocaleName;
 
 import sun.util.resources.cldr.en.TimeZoneNames_en;
 
@@ -48,6 +48,8 @@ public class HolidayDatabase {
 
     private List<Holiday> mHolidayList = new ArrayList<>();
 
+    private int mFestivalId = 0;
+
     public HolidayDatabase() {
 
     }
@@ -68,9 +70,12 @@ public class HolidayDatabase {
                 int regionId = holiday.getRegion().getId();
                 int festivalId = holiday.getFestival().getId();
                 int offWork = holiday.getOffWork();
-                int value = 
-                if (holiday.get
+                int value = combineHolidayValue(regionId, festivalId, offWork);
+                holidayValueList.add(value);
             }
+        }
+        if (holidayValueList.size() > 0) {
+            System.out.println("Found holiday list " + holidayValueList.toString() + " for date " + calendar.getTime());
         }
         return holidayValueList;
     }
@@ -85,6 +90,7 @@ public class HolidayDatabase {
             System.out.println("Parsing holiday sheet " + sheetName + " region " + region);
             int i;
             int j;
+            Festival lastFestival = null;
             for (i = EXCEL_ROW_HOLIDAY_DATA_START; i < rows; i++) {
                 XSSFRow row = sheet.getRow(i);
                 String nameFormula = ExcelHelper.getCellFormula(row, EXCEL_COL_HOLIDAY_NAME);
@@ -96,18 +102,32 @@ public class HolidayDatabase {
                     refCellName = refCellName.replaceAll("[^\\d.]", "");
                     int index = Integer.parseInt(refCellName);
                     festival = findFestival(type, index);
+                    lastFestival = festival;
                 }
                 int cols = row.getPhysicalNumberOfCells();
                 j = EXCEL_COL_HOLIDAY_YEAR_START;
                 while (j < cols) {
                     Date date = ExcelHelper.getDateCellValue(row, j);
+                    if (date == null) {
+                        j += 2;
+                        continue;
+                    }
                     j++;
                     int offWork = ExcelHelper.getIntCellValue(row, j);
                     j++;
-                    Holiday holiday = new Holiday(region, festival, date, offWork);
-                    mHolidayList.add(holiday);
-                }
+                    if (festival != null) {
+                        Holiday holiday = new Holiday(region, festival, date, -1);
+                        mHolidayList.add(holiday);
+                    }
 
+                    if (offWork >= 0) {
+                        if (festival == null) {
+                            festival = lastFestival;
+                        }
+                        Holiday holiday = new Holiday(region, festival, date, offWork);
+                        mHolidayList.add(holiday);
+                    }
+                }
             }
         }
     }
@@ -137,7 +157,8 @@ public class HolidayDatabase {
                     LocaleName locale = new LocaleName(nameLocale[j - EXCEL_COL_FESTIVAL_LOCALE_START], localeName);
                     localeList.add(locale);
                 }
-                Festival festival = new Festival(id, sheetName, localeList);
+                Festival festival = new Festival(mFestivalId, id, sheetName, localeList);
+                mFestivalId++;
                 mFestivalList.add(festival);
             }
         }
@@ -175,7 +196,7 @@ public class HolidayDatabase {
 
     private Festival findFestival(String type, int index) {
         for (Festival festival : mFestivalList) {
-            if (festival.getId() == index - Festival.INDEX_ID_OFFSET && type.equals(festival.getType())) {
+            if (festival.getIndex() == index - Festival.INDEX_ID_OFFSET && type.equals(festival.getType())) {
                 return festival;
             }
         }
@@ -195,6 +216,18 @@ public class HolidayDatabase {
         return day1.get(Calendar.YEAR) == day2.get(Calendar.YEAR)
                 && day1.get(Calendar.MONTH) == day2.get(Calendar.MONTH)
                 && day1.get(Calendar.DATE) == day2.get(Calendar.DATE);
+    }
+
+    private int combineHolidayValue(int regionId, int festivalId, int offWork) {
+        int value = 0;
+        if (festivalId > 0) {
+            value = 0x3FF & festivalId;
+        }
+        if (offWork >= 0) {
+            value |= ((1 << offWork) & 0x3) << 10;
+        }
+        value |= regionId << 12;
+        return value;
     }
 
 }

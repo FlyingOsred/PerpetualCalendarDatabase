@@ -2,7 +2,7 @@ package com.flyingosred.app.perpetualcalendar.database.holiday;
 
 import java.util.List;
 
-import com.flyingosred.app.perpetualcalendar.database.LocaleName;
+import com.flyingosred.app.perpetualcalendar.database.locale.LocaleName;
 
 public class Festival {
 
@@ -10,12 +10,15 @@ public class Festival {
 
     private final int mId;
 
+    private final int mIndex;
+
     private final String mType;
 
     private final List<LocaleName> mLocaleList;
 
-    public Festival(int id, String type, List<LocaleName> localeList) {
+    public Festival(int id, int index, String type, List<LocaleName> localeList) {
         mId = id;
+        mIndex = index;
         mType = type;
         mLocaleList = localeList;
     }
@@ -27,6 +30,10 @@ public class Festival {
 
     public int getId() {
         return mId;
+    }
+
+    public int getIndex() {
+        return mIndex;
     }
 
     public String getType() {

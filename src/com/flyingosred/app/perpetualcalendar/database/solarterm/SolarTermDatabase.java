@@ -7,8 +7,8 @@ import java.util.List;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 
-import com.flyingosred.app.perpetualcalendar.database.LocaleName;
 import com.flyingosred.app.perpetualcalendar.database.excel.ExcelHelper;
+import com.flyingosred.app.perpetualcalendar.database.locale.LocaleName;
 import com.flyingosred.app.perpetualcalendar.database.util.Utils;
 
 public class SolarTermDatabase {

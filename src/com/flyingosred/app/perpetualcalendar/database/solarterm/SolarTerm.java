@@ -3,7 +3,7 @@ package com.flyingosred.app.perpetualcalendar.database.solarterm;
 import java.util.Date;
 import java.util.List;
 
-import com.flyingosred.app.perpetualcalendar.database.LocaleName;
+import com.flyingosred.app.perpetualcalendar.database.locale.LocaleName;
 
 public class SolarTerm {
 
