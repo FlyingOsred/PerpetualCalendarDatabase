@@ -33,6 +33,10 @@ public class SolarTermProvider {
         return null;
     }
 
+    public List<SolarTerm> get() {
+        return mDatabase.get();
+    }
+
     private void init() {
         ExcelHelper excelHelper = new ExcelHelper();
         mDatabase.init(excelHelper);

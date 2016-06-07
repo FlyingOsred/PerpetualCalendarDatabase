@@ -2,6 +2,7 @@ package com.flyingosred.app.perpetualcalendar.database.solarterm;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -29,6 +30,8 @@ public class SolarTermDatabase {
 
     private final List<SolarTerm> mSolarTermList = new ArrayList<>();
 
+    HashMap<String, HashMap<String, String>> mLocaleMap = new HashMap<>();
+
     public SolarTermDatabase() {
     }
 
@@ -53,7 +56,16 @@ public class SolarTermDatabase {
                     NAME_POSTFIX);
             List<LocaleName> localeList = new ArrayList<>();
             for (j = EXCEL_COL_NAME_START; j <= EXCEL_COL_NAME_END; j++) {
+                String locale = nameLocale[j - EXCEL_COL_NAME_START];
                 String localeName = ExcelHelper.getStringCellValue(row, j);
+                HashMap<String, String> localeNameMap;
+                if (mLocaleMap.containsKey(locale)) {
+                    localeNameMap = mLocaleMap.get(locale);
+                } else {
+                    localeNameMap = new HashMap<>();
+                    mLocaleMap.put(localeName, localeNameMap);
+                }
+                localeNameMap.put(name, localeName);
                 LocaleName locale = new LocaleName(nameLocale[j - EXCEL_COL_NAME_START], localeName);
                 localeList.add(locale);
             }

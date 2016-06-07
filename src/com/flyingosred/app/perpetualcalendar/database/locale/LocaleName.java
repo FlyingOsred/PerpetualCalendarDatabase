@@ -16,4 +16,11 @@ public final class LocaleName {
         return "locale is " + mLocale + ", name is " + mName;
     }
 
+    public String getLocale() {
+        return mLocale;
+    }
+
+    public String getName() {
+        return mName;
+    }
 }
