@@ -12,6 +12,9 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 import com.flyingosred.app.perpetualcalendar.database.excel.ExcelHelper;
 import com.flyingosred.app.perpetualcalendar.database.locale.LocaleName;
+import com.flyingosred.app.perpetualcalendar.database.resource.LocalizationResource;
+import com.flyingosred.app.perpetualcalendar.database.resource.Resources;
+import com.flyingosred.app.perpetualcalendar.database.util.Utils;
 
 import sun.util.resources.cldr.en.TimeZoneNames_en;
 
@@ -26,6 +29,7 @@ public class HolidayDatabase {
     private static final int EXCEL_ROW_REGION_DATA_START = 2;
     private static final int EXCEL_ROW_REGION_LOCALE = 1;
 
+    private static final int EXCEL_COL_FESTIVAL_NAME = 1;
     private static final int EXCEL_COL_FESTIVAL_LOCALE_START = 1;
     private static final int EXCEL_COL_FESTIVAL_LOCALE_END = 4;
     private static final int EXCEL_ROW_FESTIVAL_LOCALE = 1;
@@ -42,45 +46,18 @@ public class HolidayDatabase {
 
     private static final String EXCEL_SHEET_HOLIDAY_SUFFIX = "Holiday";
 
-    private List<HolidayRegion> mHolidayRegionList = new ArrayList<>();
+    private static final String REGION_NAME_PREFIX = "region";
 
-    private List<Festival> mFestivalList = new ArrayList<>();
+    private static final String NAME_POSTFIX = "name";
 
-    private List<Holiday> mHolidayList = new ArrayList<>();
-
-    private int mFestivalId = 0;
-
-    public HolidayDatabase() {
-
+    public static void parse(Resources resources) {
+        ExcelHelper excelHelper = new ExcelHelper();
+        parseRegion(excelHelper, resources);
+        parseFestival(excelHelper, resources);
+        parseHoliday(excelHelper, resources);
     }
 
-    public void init(ExcelHelper excelHelper) {
-        parseRegion(excelHelper);
-        parseFestival(excelHelper);
-        parseHoliday(excelHelper);
-    }
-
-    public List<Integer> get(Calendar calendar) {
-        List<Integer> holidayValueList = new ArrayList<>();
-        for (Holiday holiday : mHolidayList) {
-            Date date = holiday.getDate();
-            Calendar tempCalendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"), Locale.ENGLISH);
-            tempCalendar.setTime(date);
-            if (isSameDay(calendar, tempCalendar)) {
-                int regionId = holiday.getRegion().getId();
-                int festivalId = holiday.getFestival().getId();
-                int offWork = holiday.getOffWork();
-                int value = combineHolidayValue(regionId, festivalId, offWork);
-                holidayValueList.add(value);
-            }
-        }
-        if (holidayValueList.size() > 0) {
-            System.out.println("Found holiday list " + holidayValueList.toString() + " for date " + calendar.getTime());
-        }
-        return holidayValueList;
-    }
-
-    private void parseHoliday(ExcelHelper excelHelper) {
+    private static void parseHoliday(ExcelHelper excelHelper, Resources resources) {
         List<XSSFSheet> sheets = excelHelper.getSheetsWithSuffix(EXCEL_SHEET_HOLIDAY_SUFFIX);
         for (XSSFSheet sheet : sheets) {
             int rows = sheet.getPhysicalNumberOfRows();
@@ -132,7 +109,7 @@ public class HolidayDatabase {
         }
     }
 
-    private void parseFestival(ExcelHelper excelHelper) {
+    private static void parseFestival(ExcelHelper excelHelper, Resources resources) {
         List<XSSFSheet> sheets = excelHelper.getSheetsWithSuffix(EXCEL_SHEET_FESTIVAL_SUFFIX);
         for (XSSFSheet sheet : sheets) {
             int rows = sheet.getPhysicalNumberOfRows();
@@ -145,27 +122,26 @@ public class HolidayDatabase {
             for (i = EXCEL_COL_FESTIVAL_LOCALE_START; i <= EXCEL_COL_FESTIVAL_LOCALE_END; i++) {
                 nameLocale[i - EXCEL_COL_FESTIVAL_LOCALE_START] = ExcelHelper.getStringCellValue(localeRow, i);
             }
+            String typeName = (sheetName.replace(EXCEL_SHEET_FESTIVAL_SUFFIX, "") + "_" + EXCEL_SHEET_FESTIVAL_SUFFIX)
+                    .toLowerCase();
+            LocalizationResource localizationResource = new LocalizationResource(typeName);
             for (i = EXCEL_ROW_FESTIVAL_DATA_START; i < rows; i++) {
                 XSSFRow row = sheet.getRow(i);
                 int id = ExcelHelper.getIntCellValue(row, EXCEL_COL_FESTIVAL_ID);
                 if (id < 0) {
                     continue;
                 }
-                List<LocaleName> localeList = new ArrayList<>();
+                String name = Utils.composeName(typeName, ExcelHelper.getStringCellValue(row, EXCEL_COL_FESTIVAL_NAME),
+                        NAME_POSTFIX);
                 for (j = EXCEL_COL_FESTIVAL_LOCALE_START; j <= EXCEL_COL_FESTIVAL_LOCALE_END; j++) {
                     String localeName = ExcelHelper.getStringCellValue(row, j);
-                    LocaleName locale = new LocaleName(nameLocale[j - EXCEL_COL_FESTIVAL_LOCALE_START], localeName);
-                    localeList.add(locale);
+                    localizationResource.add(name, nameLocale[j - EXCEL_COL_REGION_LOCALE_START], localeName);
                 }
-                Festival festival = new Festival(mFestivalId, id, sheetName, localeList);
-                mFestivalId++;
-                mFestivalList.add(festival);
             }
         }
-        System.out.println("Totally " + mFestivalList.size() + " festival.");
     }
 
-    private void parseRegion(ExcelHelper excelHelper) {
+    private static void parseRegion(ExcelHelper excelHelper, Resources resources) {
         XSSFSheet sheet = excelHelper.getSheet(EXCEL_SHEET_REGION_NAME);
         int rows = sheet.getPhysicalNumberOfRows();
         int i;
@@ -175,23 +151,21 @@ public class HolidayDatabase {
         for (i = EXCEL_COL_REGION_LOCALE_START; i <= EXCEL_COL_REGION_LOCALE_END; i++) {
             nameLocale[i - EXCEL_COL_REGION_LOCALE_START] = ExcelHelper.getStringCellValue(localeRow, i);
         }
+        LocalizationResource localizationResource = new LocalizationResource(EXCEL_SHEET_REGION_NAME);
         for (i = EXCEL_ROW_REGION_DATA_START; i < rows; i++) {
             XSSFRow row = sheet.getRow(i);
             int id = ExcelHelper.getIntCellValue(row, EXCEL_COL_REGION_ID);
             if (id < 0) {
                 continue;
             }
-            String name = ExcelHelper.getStringCellValue(row, EXCEL_COL_REGION_NAME).toLowerCase();
-            List<LocaleName> localeList = new ArrayList<>();
+            String name = Utils.composeName(REGION_NAME_PREFIX,
+                    ExcelHelper.getStringCellValue(row, EXCEL_COL_REGION_NAME), NAME_POSTFIX);
             for (j = EXCEL_COL_REGION_LOCALE_START; j <= EXCEL_COL_REGION_LOCALE_END; j++) {
                 String localeName = ExcelHelper.getStringCellValue(row, j);
-                LocaleName locale = new LocaleName(nameLocale[j - EXCEL_COL_REGION_LOCALE_START], localeName);
-                localeList.add(locale);
+                localizationResource.add(name, nameLocale[j - EXCEL_COL_REGION_LOCALE_START], localeName);
             }
-            HolidayRegion region = new HolidayRegion(id, name, localeList);
-            System.out.println("Found holiday region " + region.toString());
-            mHolidayRegionList.add(region);
         }
+        resources.add(localizationResource);
     }
 
     private Festival findFestival(String type, int index) {
