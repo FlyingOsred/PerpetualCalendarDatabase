@@ -9,17 +9,7 @@ public class HolidayProvider {
 
     private final HolidayDatabase mDatabase = new HolidayDatabase();
 
-    public HolidayProvider() {
-        init();
-    }
-
     public List<Integer> get(Calendar calendar) {
-        return mDatabase.get(calendar);
-    }
-
-    private void init() {
-        ExcelHelper excelHelper = new ExcelHelper();
-        mDatabase.init(excelHelper);
-        excelHelper.destroy();
+        return null;
     }
 }

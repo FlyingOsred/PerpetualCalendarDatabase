@@ -42,12 +42,12 @@ public final class ExcelHelper {
         return sheet;
     }
 
-    public List<XSSFSheet> getSheetsWithSuffix(String suffix) {
+    public List<XSSFSheet> getSheets(String pattern) {
         List<XSSFSheet> list = new ArrayList<>();
         Iterator<Sheet> iterator = mWorkbook.sheetIterator();
         while (iterator.hasNext()) {
             Sheet sheet = iterator.next();
-            if (sheet.getSheetName().endsWith(suffix)) {
+            if (sheet.getSheetName().contains(pattern)) {
                 list.add((XSSFSheet) sheet);
             }
         }

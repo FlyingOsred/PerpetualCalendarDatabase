@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--Copyright (C) 2016 Osred Brockhoist <osred.brockhoist@hotmail.com>. All Rights Reserved.-->
+<!--This file is auto-generated-->
+<!--DO NOT MODIFY-->
+<resources>
+    <string name="region_taiwan_name">中国台湾</string>
+    <string name="region_hongkong_name">中国香港</string>
+    <string name="region_china_name">中国</string>
+</resources>

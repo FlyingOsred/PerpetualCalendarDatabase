@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--Copyright (C) 2016 Osred Brockhoist <osred.brockhoist@hotmail.com>. All Rights Reserved.-->
+<!--This file is auto-generated-->
+<!--DO NOT MODIFY-->
+<resources>
+    <string-array name="region_name" translatable="false">
+        <item>@string/region_taiwan_name</item>
+        <item>@string/region_hongkong_name</item>
+        <item>@string/region_china_name</item>
+    </string-array>
+</resources>
