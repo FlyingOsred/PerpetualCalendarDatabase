@@ -11,7 +11,7 @@ import com.flyingosred.app.perpetualcalendar.database.lunar.Lunar;
 import com.flyingosred.app.perpetualcalendar.database.lunar.LunarProvider;
 import com.flyingosred.app.perpetualcalendar.database.platform.android.PlatformAndroid;
 import com.flyingosred.app.perpetualcalendar.database.region.RegionProvider;
-import com.flyingosred.app.perpetualcalendar.database.resource.ResourceBase;
+import com.flyingosred.app.perpetualcalendar.database.resource.Resource;
 import com.flyingosred.app.perpetualcalendar.database.solarterm.SolarTermProvider;
 import com.flyingosred.app.perpetualcalendar.database.util.Utils;
 
@@ -40,9 +40,11 @@ public class Main {
             calendar.add(Calendar.DATE, 1);
         } while (!Utils.isSameDay(calendar, PerpetualCalendarContract.MAX_DATE));
 
-        List<ResourceBase> resourceList = new ArrayList<>();
+        List<Resource> resourceList = new ArrayList<>();
+        resourceList.add(constellationProvider.getResource());
         resourceList.add(solarTermProvider.getResource());
         resourceList.add(regionProvider.getResource());
+        resourceList.add(holidayProvider.getResource());
 
         PlatformAndroid platform = new PlatformAndroid();
         platform.generateResources(resourceList);

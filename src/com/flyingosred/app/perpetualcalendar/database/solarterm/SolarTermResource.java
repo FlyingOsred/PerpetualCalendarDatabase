@@ -1,8 +1,8 @@
 package com.flyingosred.app.perpetualcalendar.database.solarterm;
 
-import com.flyingosred.app.perpetualcalendar.database.resource.ResourceBase;
+import com.flyingosred.app.perpetualcalendar.database.resource.Resource;
 
-public class SolarTermResource extends ResourceBase {
+public class SolarTermResource extends Resource {
 
     private static final String NAME_PREFIX = "solar_term";
 

@@ -2,7 +2,7 @@ package com.flyingosred.app.perpetualcalendar.database.solarterm;
 
 import java.util.Calendar;
 
-import com.flyingosred.app.perpetualcalendar.database.resource.ResourceBase;
+import com.flyingosred.app.perpetualcalendar.database.resource.Resource;
 
 public final class SolarTermDatabase {
 
@@ -16,7 +16,7 @@ public final class SolarTermDatabase {
         mResource.Init();
     }
 
-    public ResourceBase getResource() {
+    public Resource getResource() {
         return mResource;
     }
 

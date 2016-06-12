@@ -1,7 +1,8 @@
 package com.flyingosred.app.perpetualcalendar.database.resource;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -10,20 +11,22 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import com.flyingosred.app.perpetualcalendar.database.excel.ExcelHelper;
 import com.flyingosred.app.perpetualcalendar.database.excel.ExcelSheetBase;
 
-public abstract class ResourceBase extends ExcelSheetBase {
+public abstract class Resource extends ExcelSheetBase {
 
     private static final String NAME_SUFFIX = "name";
+
+    private static final String DEFAULT_LOCALE = "en_US";
 
     private static final int EXCEL_COL_NAME_START = 1;
     private static final int EXCEL_COL_NAME_END = 4;
     private static final int EXCEL_ROW_LOCALE_NAME = 1;
     private static final int EXCEL_ROW_DATA_START = 2;
 
-    private HashMap<String, HashMap<String, String>> mResourceMap = new HashMap<>();
+    private LinkedHashMap<String, LinkedHashMap<String, String>> mResourceMap = new LinkedHashMap<>();
 
     public int getId(String value) {
-        for (Map.Entry<String, HashMap<String, String>> entry : mResourceMap.entrySet()) {
-            HashMap<String, String> localeMap = entry.getValue();
+        for (Map.Entry<String, LinkedHashMap<String, String>> entry : mResourceMap.entrySet()) {
+            LinkedHashMap<String, String> localeMap = entry.getValue();
             int index = 0;
             for (Map.Entry<String, String> localeEntry : localeMap.entrySet()) {
                 String localeValue = localeEntry.getValue();
@@ -37,8 +40,17 @@ public abstract class ResourceBase extends ExcelSheetBase {
     }
 
     public List<String> getNames() {
-        String defaultLocale = (String) mResourceMap.keySet().toArray()[0];
-        return new ArrayList<String>(mResourceMap.get(defaultLocale).keySet());
+        return new ArrayList<String>(mResourceMap.get(DEFAULT_LOCALE).keySet());
+    }
+
+    public List<String> getValues() {
+        List<String> valueList = new ArrayList<>();
+        Map<String, String> valueMap = mResourceMap.get(DEFAULT_LOCALE);
+        for (Map.Entry<String, String> entry : valueMap.entrySet()) {
+            String value = entry.getValue();
+            valueList.add(formatNameString(value));
+        }
+        return valueList;
     }
 
     public List<String> getLocales() {
@@ -76,11 +88,11 @@ public abstract class ResourceBase extends ExcelSheetBase {
     public abstract String getType();
 
     private void add(String name, String locale, String localization) {
-        HashMap<String, String> localeNameMap;
+        LinkedHashMap<String, String> localeNameMap;
         if (mResourceMap.containsKey(locale)) {
             localeNameMap = mResourceMap.get(locale);
         } else {
-            localeNameMap = new HashMap<>();
+            localeNameMap = new LinkedHashMap<>();
             mResourceMap.put(locale, localeNameMap);
         }
         localeNameMap.put(name, localization);

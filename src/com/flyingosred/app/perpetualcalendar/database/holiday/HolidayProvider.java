@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import com.flyingosred.app.perpetualcalendar.database.excel.ExcelHelper;
+import com.flyingosred.app.perpetualcalendar.database.resource.Resource;
 
 public class HolidayProvider {
 
@@ -11,5 +12,9 @@ public class HolidayProvider {
 
     public List<Integer> get(Calendar calendar) {
         return null;
+    }
+
+    public Resource getResource() {
+        return mDatabase.getResource();
     }
 }

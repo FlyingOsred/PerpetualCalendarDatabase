@@ -10,10 +10,11 @@ import java.util.Map;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 
+import com.flyingosred.app.perpetualcalendar.database.data.Data;
 import com.flyingosred.app.perpetualcalendar.database.excel.ExcelHelper;
 import com.flyingosred.app.perpetualcalendar.database.util.Utils;
 
-public class SolarTermData {
+public class SolarTermData extends Data {
 
     Map<Integer, List<Date>> mDataMap = new HashMap<>();
 
@@ -22,7 +23,6 @@ public class SolarTermData {
         XSSFSheet sheet = excelHelper.getSheet(sheetName);
         load(sheet, colId, colDataStart, rowDataStart);
         excelHelper.destroy();
-
     }
 
     public int get(Calendar calendar) {
@@ -38,6 +38,11 @@ public class SolarTermData {
             }
         }
         return -1;
+    }
+
+    @Override
+    protected String getSheetName() {
+        return SolarTermDatabase.EXCEL_SHEET_NAME;
     }
 
     private void load(XSSFSheet sheet, int colId, int colDataStart, int rowDataStart) {

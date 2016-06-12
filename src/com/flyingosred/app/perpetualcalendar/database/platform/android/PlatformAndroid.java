@@ -9,7 +9,7 @@ import org.dom4j.Document;
 import org.dom4j.Element;
 
 import com.flyingosred.app.perpetualcalendar.database.platform.PlatformBase;
-import com.flyingosred.app.perpetualcalendar.database.resource.ResourceBase;
+import com.flyingosred.app.perpetualcalendar.database.resource.Resource;
 import com.flyingosred.app.perpetualcalendar.database.util.Utils;
 import com.flyingosred.app.perpetualcalendar.database.xml.XmlHelper;
 
@@ -37,6 +37,8 @@ public final class PlatformAndroid extends PlatformBase {
 
     private static final String NAME_SUFFIX = "_name";
 
+    private static final String VALUE_SUFFIX = "_value";
+
     public PlatformAndroid() {
         super(PlatformBase.PLATFORM_ANDROID, "Android");
         Utils.delete(new File(getGeneratedPath()));
@@ -48,15 +50,15 @@ public final class PlatformAndroid extends PlatformBase {
     }
 
     @Override
-    public void generateResources(List<ResourceBase> resourceList) {
-        for (ResourceBase resource : resourceList) {
+    public void generateResources(List<Resource> resourceList) {
+        for (Resource resource : resourceList) {
             System.out.println("Generating resource " + resource.getType());
             List<String> names = resource.getNames();
             List<String> itemNameList = new ArrayList<>();
             for (String name : names) {
                 itemNameList.add("@string/" + name);
             }
-            generateArrayXml(resource.getType(), itemNameList);
+            generateArrayXml(resource.getType(), itemNameList, resource.getValues());
             List<String> localeList = resource.getLocales();
             for (String locale : localeList) {
                 generateStringXml(locale, resource.getType(), resource.getLocaleMap(locale));
@@ -75,7 +77,7 @@ public final class PlatformAndroid extends PlatformBase {
         createDatabase();
     }
 
-    private void generateArrayXml(String type, List<String> itemList) {
+    private void generateArrayXml(String type, List<String> nameList, List<String> valueList) {
         File valuesDir = new File(getGeneratedPath(), VALUES_DIR_NAME);
         if (!valuesDir.exists()) {
             valuesDir.mkdirs();
@@ -85,10 +87,15 @@ public final class PlatformAndroid extends PlatformBase {
         Document document = XmlHelper.createDocument();
         XmlHelper.addComment(document);
         Element root = XmlHelper.createRootElement(document, RESOURCES_ROOT);
-        Element arrayElement = XmlHelper.createElement(root, ELEMENT_STRING_ARRAY)
+        Element nameElement = XmlHelper.createElement(root, ELEMENT_STRING_ARRAY)
                 .addAttribute(ATTR_NAME, type + NAME_SUFFIX).addAttribute(ATTR_TRANSLATABLE, "false");
-        for (String item : itemList) {
-            XmlHelper.createElement(arrayElement, ELEMENT_ITEM, item);
+        for (String item : nameList) {
+            XmlHelper.createElement(nameElement, ELEMENT_ITEM, item);
+        }
+        Element valueElement = XmlHelper.createElement(root, ELEMENT_STRING_ARRAY)
+                .addAttribute(ATTR_NAME, type + VALUE_SUFFIX).addAttribute(ATTR_TRANSLATABLE, "false");
+        for (String value : valueList) {
+            XmlHelper.createElement(valueElement, ELEMENT_ITEM, value);
         }
         XmlHelper.outputFile(path, document);
     }
@@ -114,8 +121,13 @@ public final class PlatformAndroid extends PlatformBase {
         XmlHelper.addComment(document);
         Element root = XmlHelper.createRootElement(document, RESOURCES_ROOT);
         for (Map.Entry<String, String> entry : nameMap.entrySet()) {
-            XmlHelper.createElement(root, ELEMENT_STRING, entry.getValue()).addAttribute(ATTR_NAME, entry.getKey());
+            XmlHelper.createElement(root, ELEMENT_STRING, formatString(entry.getValue())).addAttribute(ATTR_NAME,
+                    entry.getKey());
         }
         XmlHelper.outputFile(path, document);
+    }
+
+    private String formatString(String value) {
+        return value.replace("'", "\\'");
     }
 }

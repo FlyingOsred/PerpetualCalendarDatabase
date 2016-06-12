@@ -1,8 +1,8 @@
 package com.flyingosred.app.perpetualcalendar.database.region;
 
-import com.flyingosred.app.perpetualcalendar.database.resource.ResourceBase;
+import com.flyingosred.app.perpetualcalendar.database.resource.Resource;
 
-public class RegionResource extends ResourceBase {
+public class RegionResource extends Resource {
 
     private static final String EXCEL_SHEET_NAME = "Region";
 

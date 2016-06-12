@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--Copyright (C) 2016 Osred Brockhoist <osred.brockhoist@hotmail.com>. All Rights Reserved.-->
+<!--This file is auto-generated-->
+<!--DO NOT MODIFY-->
+<resources>
+    <string name="lunar_festival_spring_festival_name">Spring Festival</string>
+    <string name="lunar_festival_lantern_festival_name">Lantern Festival</string>
+    <string name="lunar_festival_dragon_head_raising_festival_name">Dragon-Head-Raising Festival</string>
+    <string name="lunar_festival_shangsi_festival_name">Shangsi Festival</string>
+    <string name="lunar_festival_cold_food_festival_name">Cold Food Festival</string>
+    <string name="lunar_festival_tomb_sweeping_day_name">Tomb-sweeping Day</string>
+    <string name="lunar_festival_dragon_boat_festival_name">Dragon Boat Festival</string>
+    <string name="lunar_festival_double_seventh_day_name">Double-Seventh Day</string>
+    <string name="lunar_festival_ghost_festival_name">Ghost Festival</string>
+    <string name="lunar_festival_obon_name">Obon</string>
+    <string name="lunar_festival_mid_autumn_festival_name">Mid-Autumn Festival</string>
+    <string name="lunar_festival_double_ninth_festival_name">Double Ninth Festival</string>
+    <string name="lunar_festival_winter_clothing_festival_name">Winter Clothing Festival</string>
+    <string name="lunar_festival_xiayuan_festival_name">Xiayuan Festival</string>
+    <string name="lunar_festival_laba_festival_name">Laba Festival</string>
+    <string name="lunar_festival_kitchen_god_festival_name">Kitchen God Festival</string>
+    <string name="lunar_festival_chinese_new_years_eve_name">Chinese New Year\'s Eve</string>
+    <string name="international_festival_new_years_day_name">New Year\'s Day</string>
+    <string name="international_festival_valentine_day_name">Valentine Day</string>
+    <string name="international_festival_womens_day_name">Women\'s Day</string>
+    <string name="international_festival_world_consumer_rights_day_name">World Consumer Rights Day</string>
+    <string name="international_festival_april_fools_day_name">April Fool\'s Day</string>
+    <string name="international_festival_arbor_day_name">Arbor Day</string>
+    <string name="international_festival_labour_day_name">Labour Day</string>
+    <string name="international_festival_mothers_day_name">Mother\'s Day</string>
+    <string name="international_festival_childrens_day_name">Children\'s Day</string>
+    <string name="international_festival_youth_day_name">Youth Day</string>
+    <string name="international_festival_fathers_day_name">Father\'s Day</string>
+    <string name="international_festival_teachers_day_name">Teacher\'s Day</string>
+    <string name="international_festival_christmas_eve_name">Christmas Eve</string>
+    <string name="international_festival_national_day_name">National Day</string>
+    <string name="international_festival_christmas_name">Christmas</string>
+    <string name="international_festival_good_friday_name">Good Friday</string>
+    <string name="international_festival_holy_saturday_name">Holy Saturday</string>
+    <string name="international_festival_easter_sunday_name">Easter Sunday</string>
+    <string name="international_festival_easter_monday_name">Easter Monday</string>
+    <string name="international_festival_matsus_birthday_name">Matsu\'s Birthday</string>
+    <string name="international_festival_buddhas_birthday_name">Buddha\'s Birthday</string>
+    <string name="international_festival_reporter_festival_name">Reporter Festival</string>
+    <string name="international_festival_army_day_name">Army Day</string>
+    <string name="international_festival_armed_forces_day_name">Armed Forces Day</string>
+    <string name="china_festival_youth_volunteer_service_day_name">Youth Volunteer Service Day</string>
+    <string name="china_festival_chinese_communist_party_day_name">Chinese Communist Party Day</string>
+    <string name="china_festival_macao_memorial_day_name">Macao Memorial Day</string>
+    <string name="china_festival_nanjing_massacre_anniversary_name">Nanjing Massacre Anniversary</string>
+    <string name="china_festival_hong_kong_reunification_day_name">Hong Kong Reunification Day</string>
+    <string name="taiwan_festival_republic_day_name">Republic Day</string>
+    <string name="taiwan_festival_beano_name">Beano</string>
+    <string name="taiwan_festival_farmers_day_name">Farmer\'s Day</string>
+    <string name="taiwan_festival_taoist_day_name">Taoist Day</string>
+    <string name="taiwan_festival_peace_memorial_day_name">Peace Memorial Day</string>
+    <string name="taiwan_festival_army_day_children_name">Army Day Children</string>
+    <string name="taiwan_festival_sun_yat_sens_passing_day_name">Sun Yat-sen\'s Passing Day</string>
+    <string name="taiwan_festival_japanese_aggression_name">Japanese Aggression</string>
+    <string name="taiwan_festival_art_festival_name">Art Festival</string>
+    <string name="taiwan_festival_day_martyrs_name">Day Martyrs</string>
+    <string name="taiwan_festival_joint_service_day_name">Joint Service Day</string>
+    <string name="taiwan_festival_tomb_sweeping_day_name">Tomb-sweeping Day</string>
+    <string name="taiwan_festival_army_day_name">Army Day</string>
+    <string name="taiwan_festival_martial_law_anniversary_name">Martial law anniversary</string>
+    <string name="taiwan_festival_air_force_day_name">Air Force Day</string>
+    <string name="taiwan_festival_navy_day_name">Navy Day</string>
+    <string name="taiwan_festival_confucius_birthday_name">Confucius\' Birthday</string>
+    <string name="taiwan_festival_overseas_chinese_day_name">Overseas Chinese Day</string>
+    <string name="taiwan_festival_united_nations_day_name">United Nations Day</string>
+    <string name="taiwan_festival_taiwan_retrocession_day_name">Taiwan Retrocession Day</string>
+    <string name="taiwan_festival_sun_yat_sens_birthday_name">Sun Yat-sen\'s Birthday</string>
+    <string name="taiwan_festival_cultural_renaissance_day_name">Cultural Renaissance Day</string>
+    <string name="taiwan_festival_gendarmerie_section_day_name">Gendarmerie Section Day</string>
+    <string name="taiwan_festival_constitution_day_name">Constitution Day</string>
+    <string name="hong_kong_festival_second_day_of_lunar_new_year_name">Second day of Lunar New Year</string>
+    <string name="hong_kong_festival_third_day_of_lunar_new_year_name">Third day of Lunar New Year</string>
+    <string name="hong_kong_festival_day_following_labour_day_name">Day following Labour Day</string>
+    <string name="hong_kong_festival_hong_kong_special_administrative_region_establishment_day_name">Hong Kong Special Administrative Region Establishment Day</string>
+    <string name="hong_kong_festival_day_following_the_mid_autumn_festival_name">Day following the Mid-Autumn Festival</string>
+    <string name="hong_kong_festival_day_following_double_ninth_festival_next_day_name">Day following Double Ninth Festival Next Day</string>
+    <string name="hong_kong_festival_the_first_weekday_after_christmas_name">The first weekday after Christmas</string>
+    <string name="hong_kong_festival_the_second_weekday_after_christmas_name">The second weekday after Christmas</string>
+</resources>

@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.flyingosred.app.perpetualcalendar.database.excel.ExcelHelper;
-import com.flyingosred.app.perpetualcalendar.database.resource.ResourceBase;
+import com.flyingosred.app.perpetualcalendar.database.resource.Resource;
 import com.flyingosred.app.perpetualcalendar.database.util.Utils;
 
 public class SolarTermProvider {
@@ -19,7 +19,7 @@ public class SolarTermProvider {
         return mDatabase.get(calendar);
     }
 
-    public ResourceBase getResource() {
+    public Resource getResource() {
         return mDatabase.getResource();
     }
 }

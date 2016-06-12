@@ -4,7 +4,7 @@
 <!--This file is auto-generated-->
 <!--DO NOT MODIFY-->
 <resources>
+    <string name="region_china_name">China</string>
     <string name="region_taiwan_name">Taiwan</string>
     <string name="region_hongkong_name">HongKong</string>
-    <string name="region_china_name">China</string>
 </resources>

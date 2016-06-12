@@ -5,8 +5,13 @@
 <!--DO NOT MODIFY-->
 <resources>
     <string-array name="region_name" translatable="false">
+        <item>@string/region_china_name</item>
         <item>@string/region_taiwan_name</item>
         <item>@string/region_hongkong_name</item>
-        <item>@string/region_china_name</item>
+    </string-array>
+    <string-array name="region_value" translatable="false">
+        <item>china</item>
+        <item>taiwan</item>
+        <item>hongkong</item>
     </string-array>
 </resources>

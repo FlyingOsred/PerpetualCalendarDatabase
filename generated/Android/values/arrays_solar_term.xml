@@ -5,29 +5,55 @@
 <!--DO NOT MODIFY-->
 <resources>
     <string-array name="solar_term_name" translatable="false">
-        <item>@string/solar_term_cold_dew_name</item>
-        <item>@string/solar_term_start_of_winter_name</item>
+        <item>@string/solar_term_minor_cold_name</item>
+        <item>@string/solar_term_major_cold_name</item>
+        <item>@string/solar_term_start_of_spring_name</item>
+        <item>@string/solar_term_rain_water_name</item>
+        <item>@string/solar_term_awakening_of_insects_name</item>
+        <item>@string/solar_term_vernal_equinox_name</item>
+        <item>@string/solar_term_clear_and_bright_name</item>
         <item>@string/solar_term_grain_rain_name</item>
         <item>@string/solar_term_start_of_summer_name</item>
-        <item>@string/solar_term_minor_heat_name</item>
-        <item>@string/solar_term_vernal_equinox_name</item>
         <item>@string/solar_term_grain_full_name</item>
         <item>@string/solar_term_grain_in_ear_name</item>
-        <item>@string/solar_term_start_of_autumn_name</item>
         <item>@string/solar_term_summer_solstice_name</item>
-        <item>@string/solar_term_winter_solstice_name</item>
-        <item>@string/solar_term_minor_cold_name</item>
-        <item>@string/solar_term_clear_and_bright_name</item>
-        <item>@string/solar_term_rain_water_name</item>
-        <item>@string/solar_term_autumnal_equinox_name</item>
-        <item>@string/solar_term_frost_descent_name</item>
+        <item>@string/solar_term_minor_heat_name</item>
+        <item>@string/solar_term_major_heat_name</item>
+        <item>@string/solar_term_start_of_autumn_name</item>
         <item>@string/solar_term_limit_of_heat_name</item>
-        <item>@string/solar_term_start_of_spring_name</item>
-        <item>@string/solar_term_awakening_of_insects_name</item>
         <item>@string/solar_term_white_dew_name</item>
+        <item>@string/solar_term_autumnal_equinox_name</item>
+        <item>@string/solar_term_cold_dew_name</item>
+        <item>@string/solar_term_frost_descent_name</item>
+        <item>@string/solar_term_start_of_winter_name</item>
         <item>@string/solar_term_minor_snow_name</item>
         <item>@string/solar_term_major_snow_name</item>
-        <item>@string/solar_term_major_cold_name</item>
-        <item>@string/solar_term_major_heat_name</item>
+        <item>@string/solar_term_winter_solstice_name</item>
+    </string-array>
+    <string-array name="solar_term_value" translatable="false">
+        <item>minor_cold</item>
+        <item>major_cold</item>
+        <item>start_of_spring</item>
+        <item>rain_water</item>
+        <item>awakening_of_insects</item>
+        <item>vernal_equinox</item>
+        <item>clear_and_bright</item>
+        <item>grain_rain</item>
+        <item>start_of_summer</item>
+        <item>grain_full</item>
+        <item>grain_in_ear</item>
+        <item>summer_solstice</item>
+        <item>minor_heat</item>
+        <item>major_heat</item>
+        <item>start_of_autumn</item>
+        <item>limit_of_heat</item>
+        <item>white_dew</item>
+        <item>autumnal_equinox</item>
+        <item>cold_dew</item>
+        <item>frost_descent</item>
+        <item>start_of_winter</item>
+        <item>minor_snow</item>
+        <item>major_snow</item>
+        <item>winter_solstice</item>
     </string-array>
 </resources>

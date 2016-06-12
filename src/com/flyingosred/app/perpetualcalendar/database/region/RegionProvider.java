@@ -1,6 +1,6 @@
 package com.flyingosred.app.perpetualcalendar.database.region;
 
-import com.flyingosred.app.perpetualcalendar.database.resource.ResourceBase;
+import com.flyingosred.app.perpetualcalendar.database.resource.Resource;
 
 public class RegionProvider {
 
@@ -10,7 +10,7 @@ public class RegionProvider {
         mResouce.Init();
     }
 
-    public ResourceBase getResource() {
+    public Resource getResource() {
         return mResouce;
     }
 }

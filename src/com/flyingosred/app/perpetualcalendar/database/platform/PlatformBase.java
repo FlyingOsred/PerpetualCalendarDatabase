@@ -3,7 +3,7 @@ package com.flyingosred.app.perpetualcalendar.database.platform;
 import java.io.File;
 import java.util.List;
 
-import com.flyingosred.app.perpetualcalendar.database.resource.ResourceBase;
+import com.flyingosred.app.perpetualcalendar.database.resource.Resource;
 import com.flyingosred.app.perpetualcalendar.database.sql.SqlBatchData;
 import com.flyingosred.app.perpetualcalendar.database.sql.SqlHelper;
 
@@ -36,7 +36,7 @@ public abstract class PlatformBase {
 
     public abstract void generate();
 
-    public abstract void generateResources(List<ResourceBase> resourceList);
+    public abstract void generateResources(List<Resource> resourceList);
 
     protected String getGeneratedPath() {
         return mGeneratedPath;
