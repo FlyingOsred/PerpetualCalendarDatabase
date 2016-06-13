@@ -1,16 +1,11 @@
 package com.flyingosred.app.perpetualcalendar.database.region;
 
-import com.flyingosred.app.perpetualcalendar.database.resource.Resource;
+import com.flyingosred.app.perpetualcalendar.database.excel.ExcelHelper;
+import com.flyingosred.app.perpetualcalendar.database.excel.ExcelProvider;
 
-public class RegionProvider {
+public class RegionProvider extends ExcelProvider {
 
-    private final RegionResource mResouce = new RegionResource();
-
-    public RegionProvider() {
-        mResouce.Init();
-    }
-
-    public Resource getResource() {
-        return mResouce;
+    public RegionProvider(ExcelHelper excelHelper) {
+        super(new RegionDatabase(excelHelper));
     }
 }

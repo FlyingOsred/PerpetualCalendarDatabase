@@ -3,8 +3,10 @@ package com.flyingosred.app.perpetualcalendar.database;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 
 import com.flyingosred.app.perpetualcalendar.database.constellation.ConstellationProvider;
+import com.flyingosred.app.perpetualcalendar.database.excel.ExcelHelper;
 import com.flyingosred.app.perpetualcalendar.database.holiday.HolidayProvider;
 import com.flyingosred.app.perpetualcalendar.database.library.PerpetualCalendarContract;
 import com.flyingosred.app.perpetualcalendar.database.lunar.Lunar;
@@ -19,11 +21,12 @@ public class Main {
 
     public static void main(String[] args) {
 
+        ExcelHelper excelHelper = new ExcelHelper();
         LunarProvider lunarProvider = new LunarProvider();
-        SolarTermProvider solarTermProvider = new SolarTermProvider();
-        ConstellationProvider constellationProvider = new ConstellationProvider();
-        RegionProvider regionProvider = new RegionProvider();
-        HolidayProvider holidayProvider = new HolidayProvider();
+        SolarTermProvider solarTermProvider = new SolarTermProvider(excelHelper);
+        ConstellationProvider constellationProvider = new ConstellationProvider(excelHelper);
+        RegionProvider regionProvider = new RegionProvider(excelHelper);
+        HolidayProvider holidayProvider = new HolidayProvider(excelHelper);
 
         List<DatabaseItem> databaseList = new ArrayList<>();
 
@@ -32,22 +35,30 @@ public class Main {
 
         do {
             Lunar lunar = lunarProvider.get(calendar);
-            int solarTermId = solarTermProvider.get(calendar);
-            int constellationId = constellationProvider.get(calendar);
-            List<Integer> holidayList = holidayProvider.get(calendar);
-            DatabaseItem item = new DatabaseItem(calendar, lunar, solarTermId, constellationId, holidayList);
+            int solarTermId = solarTermProvider.getId(calendar);
+            if (solarTermId > 0) {
+                System.out.println("Found solar term id " + solarTermId + " for " + calendar.getTime());
+            }
+            int constellationId = constellationProvider.getId(calendar);
+            Map<String, String> holidayMap = holidayProvider.get(calendar);
+            if (holidayMap.size() > 0) {
+                System.out.println("Found holiday " + holidayMap);
+            }
+            DatabaseItem item = new DatabaseItem(calendar, lunar, solarTermId, constellationId, null);
             databaseList.add(item);
             calendar.add(Calendar.DATE, 1);
         } while (!Utils.isSameDay(calendar, PerpetualCalendarContract.MAX_DATE));
 
         List<Resource> resourceList = new ArrayList<>();
-        resourceList.add(constellationProvider.getResource());
-        resourceList.add(solarTermProvider.getResource());
-        resourceList.add(regionProvider.getResource());
-        resourceList.add(holidayProvider.getResource());
+        resourceList.addAll(constellationProvider.getResources());
+        resourceList.addAll(solarTermProvider.getResources());
+        resourceList.addAll(regionProvider.getResources());
+        resourceList.addAll(holidayProvider.getResources());
 
         PlatformAndroid platform = new PlatformAndroid();
         platform.generateResources(resourceList);
+
+        excelHelper.destroy();
     }
 
 }

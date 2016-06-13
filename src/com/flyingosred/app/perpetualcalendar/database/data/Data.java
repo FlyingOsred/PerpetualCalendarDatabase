@@ -1,6 +1,6 @@
 package com.flyingosred.app.perpetualcalendar.database.data;
 
-import java.util.List;
+import java.util.Calendar;
 
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 
@@ -8,7 +8,9 @@ import com.flyingosred.app.perpetualcalendar.database.excel.ExcelSheetBase;
 
 public abstract class Data extends ExcelSheetBase {
 
-    @Override
-    protected void parse(List<XSSFSheet> sheetList) {
+    public Data(XSSFSheet sheet) {
+        super(sheet);
     }
+
+    public abstract int getId(Calendar calendar);
 }

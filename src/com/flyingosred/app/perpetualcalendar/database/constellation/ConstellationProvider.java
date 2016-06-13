@@ -1,18 +1,12 @@
 package com.flyingosred.app.perpetualcalendar.database.constellation;
 
 import java.util.Calendar;
+import com.flyingosred.app.perpetualcalendar.database.excel.ExcelHelper;
+import com.flyingosred.app.perpetualcalendar.database.excel.ExcelProvider;
 
-import com.flyingosred.app.perpetualcalendar.database.resource.Resource;
+public final class ConstellationProvider extends ExcelProvider {
 
-public final class ConstellationProvider {
-
-    ConstellationDatabase mDatabase = new ConstellationDatabase();
-
-    public int get(Calendar calendar) {
-        return ConstellationDatabase.get(calendar);
-    }
-
-    public Resource getResource() {
-        return mDatabase.getResource();
+    public ConstellationProvider(ExcelHelper excelHelper) {
+        super(new ConstellationDatabase(excelHelper));
     }
 }
