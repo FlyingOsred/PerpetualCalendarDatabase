@@ -1,7 +1,13 @@
+/*
+ * Copyright (c) 2016. Osred Brockhoist <osred.brockhoist@hotmail.com>. All Rights Reserved.
+ */
+
 package com.flyingosred.app.perpetualcalendar.database.platform.android;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -10,7 +16,6 @@ import org.dom4j.Element;
 
 import com.flyingosred.app.perpetualcalendar.database.platform.PlatformBase;
 import com.flyingosred.app.perpetualcalendar.database.resource.Resource;
-import com.flyingosred.app.perpetualcalendar.database.util.Utils;
 import com.flyingosred.app.perpetualcalendar.database.xml.XmlHelper;
 
 public final class PlatformAndroid extends PlatformBase {
@@ -39,9 +44,12 @@ public final class PlatformAndroid extends PlatformBase {
 
     private static final String VALUE_SUFFIX = "_value";
 
+    private static final String VERSION_FILE_NAME = STRINGS_FILE_NAME_PREFIX + "database_version" + XML_SUFFIX;
+
+    private static final String VERSION_STRING_NAME = "database_version_name";
+
     public PlatformAndroid() {
         super(PlatformBase.PLATFORM_ANDROID, "Android");
-        Utils.delete(new File(getGeneratedPath()));
     }
 
     @Override
@@ -64,6 +72,7 @@ public final class PlatformAndroid extends PlatformBase {
                 generateStringXml(locale, resource.getType(), resource.getLocaleMap(locale));
             }
         }
+        generateDatabaseVersionXml();
     }
 
     @Override
@@ -71,6 +80,22 @@ public final class PlatformAndroid extends PlatformBase {
         super.createDatabase();
         getSqlHelper().excute("CREATE TABLE 'android_metadata' ('locale' TEXT DEFAULT 'en_US');");
         getSqlHelper().excute("INSERT INTO 'android_metadata' VALUES ('en_US');");
+    }
+
+    private void generateDatabaseVersionXml() {
+        File valuesDir = new File(getGeneratedPath(), VALUES_DIR_NAME);
+        if (!valuesDir.exists()) {
+            valuesDir.mkdirs();
+        }
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        File versionFile = new File(valuesDir, VERSION_FILE_NAME);
+        String path = versionFile.getAbsolutePath();
+        Document document = XmlHelper.createDocument();
+        XmlHelper.addComment(document);
+        Element root = XmlHelper.createRootElement(document, RESOURCES_ROOT);
+        XmlHelper.createElement(root, ELEMENT_STRING).addAttribute(ATTR_NAME, VERSION_STRING_NAME)
+                .addText(formatter.format(Calendar.getInstance().getTime())).addAttribute(ATTR_TRANSLATABLE, "false");
+        XmlHelper.outputFile(path, document);
     }
 
     private void generateDatabase() {

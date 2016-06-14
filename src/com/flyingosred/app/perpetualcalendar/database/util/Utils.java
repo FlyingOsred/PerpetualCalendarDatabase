@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2016. Osred Brockhoist <osred.brockhoist@hotmail.com>. All Rights Reserved.
+ */
+
 package com.flyingosred.app.perpetualcalendar.database.util;
 
 import java.io.File;
@@ -47,9 +51,8 @@ public final class Utils {
 
         if (calendar.get(Calendar.DATE) < baseCalendar.get(Calendar.DATE)) {
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     public static boolean isDayAfter(Calendar calendar, Calendar baseCalendar) {
@@ -67,9 +70,8 @@ public final class Utils {
 
         if (calendar.get(Calendar.DATE) > baseCalendar.get(Calendar.DATE)) {
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     public static void delete(File file) {

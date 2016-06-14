@@ -1,6 +1,9 @@
+/*
+ * Copyright (c) 2016. Osred Brockhoist <osred.brockhoist@hotmail.com>. All Rights Reserved.
+ */
+
 package com.flyingosred.app.perpetualcalendar.database.constellation;
 
-import java.util.Calendar;
 import com.flyingosred.app.perpetualcalendar.database.excel.ExcelHelper;
 import com.flyingosred.app.perpetualcalendar.database.excel.ExcelProvider;
 

@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2016. Osred Brockhoist <osred.brockhoist@hotmail.com>. All Rights Reserved.
+ */
+
 package com.flyingosred.app.perpetualcalendar.database.holiday;
 
 import java.util.ArrayList;
@@ -35,18 +39,27 @@ public class HolidayData extends Data {
 
     public String getString(Calendar calendar) {
         StringBuilder sb = new StringBuilder();
+        int offWork = PerpetualCalendarContract.INVALID;
         for (int i = 0; i < mDataList.size(); i++) {
             HolidayDataItem item = mDataList.get(i);
-            if (item.getType() != null) {
-                Calendar tempCalendar = Calendar.getInstance();
-                tempCalendar.setTime(item.getDate());
-                if (Utils.isSameDay(calendar, tempCalendar)) {
+            Calendar tempCalendar = Calendar.getInstance();
+            tempCalendar.setTime(item.getDate());
+            if (Utils.isSameDay(calendar, tempCalendar)) {
+                if (item.getType() != null) {
                     if (sb.length() > 0) {
                         sb.append(",");
                     }
                     sb.append(item.formatString());
                 }
+                if (item.getOffWork() != PerpetualCalendarContract.INVALID) {
+                    offWork = item.getOffWork();
+                }
             }
+        }
+
+        if (offWork != PerpetualCalendarContract.INVALID) {
+            sb.append("#");
+            sb.append(offWork);
         }
 
         if (sb.length() > 0) {

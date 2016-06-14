@@ -1,7 +1,11 @@
+/*
+ * Copyright (c) 2016. Osred Brockhoist <osred.brockhoist@hotmail.com>. All Rights Reserved.
+ */
+
 package com.flyingosred.app.perpetualcalendar.database;
 
 import java.util.Calendar;
-import java.util.List;
+import java.util.Map;
 
 import com.flyingosred.app.perpetualcalendar.database.lunar.Lunar;
 
@@ -15,16 +19,16 @@ public class DatabaseItem {
 
     private final int mConstellationId;
 
-    private final List<Integer> mHolidayList;
+    private final Map<String, String> mHolidayMap;
 
     public DatabaseItem(Calendar calendar, Lunar lunar, int solarTermId, int constellationI,
-            List<Integer> holidayList) {
+            Map<String, String> holidayMap) {
         mCalendar = Calendar.getInstance();
         mCalendar.setTimeInMillis(calendar.getTimeInMillis());
         mLunar = lunar;
         mSolarTermId = solarTermId;
         mConstellationId = constellationI;
-        mHolidayList = holidayList;
+        mHolidayMap = holidayMap;
     }
 
     public Calendar get() {
@@ -43,7 +47,7 @@ public class DatabaseItem {
         return mConstellationId;
     }
 
-    public List<Integer> getHolidayList() {
-        return mHolidayList;
+    public Map<String, String> getHolidayMap() {
+        return mHolidayMap;
     }
 }

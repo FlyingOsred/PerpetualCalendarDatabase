@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2016. Osred Brockhoist <osred.brockhoist@hotmail.com>. All Rights Reserved.
+ */
+
 package com.flyingosred.app.perpetualcalendar.database.sql;
 
 import java.io.File;
@@ -63,7 +67,8 @@ public class SqlHelper {
             conn.setAutoCommit(false);
             PreparedStatement statement = conn.prepareStatement(sql);
             long startTime = System.currentTimeMillis();
-            for (int i = 0; i < data.getSize(); i++) {
+            int i;
+            for (i = 0; i < data.getSize(); i++) {
                 if (data.setValues(statement, i)) {
                     statement.addBatch();
                 }
@@ -71,7 +76,7 @@ public class SqlHelper {
                     statement.executeBatch();
                 }
             }
-            System.out.println("Running executeBatch");
+            System.out.println("Running executeBatch with " + i + " records.");
             statement.executeBatch();
             System.out.println("executeBatch done");
             conn.commit();

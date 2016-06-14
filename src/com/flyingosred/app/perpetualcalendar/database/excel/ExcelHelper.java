@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2016. Osred Brockhoist <osred.brockhoist@hotmail.com>. All Rights Reserved.
+ */
+
 package com.flyingosred.app.perpetualcalendar.database.excel;
 
 import java.io.File;
@@ -8,6 +12,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -56,7 +61,7 @@ public final class ExcelHelper {
 
     public static int getIntCellValue(XSSFRow row, int cellNumber) {
         XSSFCell cell = row.getCell(cellNumber);
-        if (cell != null && cell.getCellType() == XSSFCell.CELL_TYPE_NUMERIC) {
+        if (cell != null && cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
             return (int) cell.getNumericCellValue();
         }
         return -1;
@@ -64,7 +69,7 @@ public final class ExcelHelper {
 
     public static String getStringCellValue(XSSFRow row, int cellNumber) {
         XSSFCell cell = row.getCell(cellNumber);
-        if (cell != null && cell.getCellType() == XSSFCell.CELL_TYPE_STRING) {
+        if (cell != null && cell.getCellType() == Cell.CELL_TYPE_STRING) {
             return cell.getStringCellValue();
         }
         return null;
@@ -72,7 +77,7 @@ public final class ExcelHelper {
     
     public static String getCellFormula(XSSFRow row, int cellNumber) {
         XSSFCell cell = row.getCell(cellNumber);
-        if (cell != null && cell.getCellType() == XSSFCell.CELL_TYPE_FORMULA) {
+        if (cell != null && cell.getCellType() == Cell.CELL_TYPE_FORMULA) {
             return cell.getCellFormula();
         }
         return null;

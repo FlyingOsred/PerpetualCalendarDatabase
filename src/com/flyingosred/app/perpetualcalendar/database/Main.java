@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2016. Osred Brockhoist <osred.brockhoist@hotmail.com>. All Rights Reserved.
+ */
+
 package com.flyingosred.app.perpetualcalendar.database;
 
 import java.util.ArrayList;
@@ -44,7 +48,7 @@ public class Main {
             if (holidayMap.size() > 0) {
                 System.out.println("Found holiday " + holidayMap);
             }
-            DatabaseItem item = new DatabaseItem(calendar, lunar, solarTermId, constellationId, null);
+            DatabaseItem item = new DatabaseItem(calendar, lunar, solarTermId, constellationId, holidayMap);
             databaseList.add(item);
             calendar.add(Calendar.DATE, 1);
         } while (!Utils.isSameDay(calendar, PerpetualCalendarContract.MAX_DATE));
@@ -54,9 +58,10 @@ public class Main {
         resourceList.addAll(solarTermProvider.getResources());
         resourceList.addAll(regionProvider.getResources());
         resourceList.addAll(holidayProvider.getResources());
-
+        
         PlatformAndroid platform = new PlatformAndroid();
         platform.generateResources(resourceList);
+        platform.generateDatabase(databaseList);
 
         excelHelper.destroy();
     }
