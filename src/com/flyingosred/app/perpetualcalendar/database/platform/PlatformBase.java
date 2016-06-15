@@ -11,9 +11,11 @@ import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -93,11 +95,11 @@ public abstract class PlatformBase {
     }
 
     private void createTable(List<String> regionList) {
-        String sql = "create table " + TABLE_NAME + " " + "(id int primary key       not null,"
-                + " solar_time_millis     int     not null, " + " lunar_year         int     not null,"
-                + " lunar_month           int     not null, " + " lunar_day          int     not null,"
-                + " lunar_is_leap_month   int,              " + " lunar_days_in_month   int     not null,             "
-                + " solar_term_id         int,            " + " constellation_id         int,            ";
+        String sql = "create table " + TABLE_NAME + " " + "(_id int primary key                 not null,"
+                + " solar                 TEXT    not null, " + " lunar_year            int     not null,"
+                + " lunar_month           int     not null, " + " lunar_day             int     not null,"
+                + " lunar_is_leap_month   int,              " + " lunar_days_in_month   int     not null,"
+                + " solar_term_id         int,              " + " constellation_id      int     not null,";
 
         for (int i = 0; i < regionList.size(); i++) {
             sql += "holiday_" + regionList.get(i) + "         TEXT";
@@ -116,7 +118,7 @@ public abstract class PlatformBase {
         sql.append(TABLE_NAME);
         sql.append(" ");
         sql.append(
-                "(id, solar_time_millis, lunar_year, lunar_month, lunar_day, lunar_is_leap_month, lunar_days_in_month, solar_term_id, constellation_id ");
+                "(_id, solar, lunar_year, lunar_month, lunar_day, lunar_is_leap_month, lunar_days_in_month, solar_term_id, constellation_id ");
         for (int i = 0; i < regionList.size(); i++) {
             sql.append(", holiday_");
             sql.append(regionList.get(i));
@@ -129,6 +131,8 @@ public abstract class PlatformBase {
         sql.append(")");
         System.out.println("Create table with sql " + sql);
 
+        final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+
         mSqlHelper.executeBatch(sql.toString(), new SqlBatchData() {
 
             @Override
@@ -140,7 +144,7 @@ public abstract class PlatformBase {
                 try {
 
                     ps.setInt(1, i + 1);
-                    ps.setLong(2, item.get().getTimeInMillis());
+                    ps.setString(2, formatter.format(item.get().getTime()));
                     ps.setInt(3, lunar.getYear());
                     ps.setInt(4, lunar.getMonth());
                     ps.setInt(5, lunar.getDay());
